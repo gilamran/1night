@@ -13,8 +13,10 @@
     * Players see their cards
         * inform player about their cards        
     * roles
-        * pair-ware-wolfs
-            * inform ware wolfs about each other
+        * warewolfs
+            1: * ask sole ware wolf to choose 1 cards from the table
+               * show the warewolf the requested cards
+            2: * inform ware wolfs about each other
         * seer (if exist)
             * ask seer which table cards to see
             * wait for response from the seer
