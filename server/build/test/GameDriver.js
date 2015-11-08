@@ -1,46 +1,42 @@
 var Game_1 = require('../src/Game');
 var Player_1 = require('../src/Player');
-var GameDriver = (function () {
-    function GameDriver() {
-        var _this = this;
-        this.BASIC_GAME_PLAYERS = [new Player_1.default('Gil'), new Player_1.default('AlonY'), new Player_1.default('Dvir')];
-        this.with = {
-            simpleSetup: function () {
-                _this.withThePlayers(_this.BASIC_GAME_PLAYERS);
-                return _this;
-            }
-        };
+var Game_2 = require('../src/Game');
+var GameBuilder = (function () {
+    function GameBuilder() {
     }
-    GameDriver.prototype.init = function () {
-        this.game = new Game_1.default();
+    GameBuilder.prototype.get = function () {
+        var game = new Game_1.default();
         if (this.dealer) {
-            this.game.setup(this.players);
-            this.game.dealer = this.dealer;
+            game.setup(this.players);
+            game.dealer = this.dealer;
         }
         else {
-            this.dealer = this.game.setup(this.players);
+            game.setup(this.players);
         }
-        return this;
+        if (this.cards) {
+            game.cards = this.cards;
+        }
+        return game;
     };
-    GameDriver.prototype.withThePlayers = function (players) {
+    GameBuilder.prototype.withThePlayers = function (players) {
         this.players = players;
         return this;
     };
-    GameDriver.prototype.withTheDealer = function (dealer) {
-        this.dealer = dealer;
+    GameBuilder.prototype.withDeck = function (cards) {
+        this.cards = cards;
         return this;
     };
-    GameDriver.prototype.shuffle = function () {
-        this.dealer.shuffleCards(this.game.cards);
-    };
-    GameDriver.prototype.deal = function (cards) {
-        this.dealer.dealCards(cards ? cards : this.game.cards, this.game.players, this.game.table);
-    };
-    GameDriver.prototype.shuffleAndDeal = function (cards) {
-        this.dealer.shuffleCards(cards ? cards : this.game.cards);
-        this.dealer.dealCards(cards ? cards : this.game.cards, this.game.players, this.game.table);
-    };
-    return GameDriver;
+    return GameBuilder;
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = GameDriver;
+exports.default = GameBuilder;
+var BASIC_GAME_PLAYERS = [new Player_1.default('Gil', 'Player1'), new Player_1.default('AlonY', 'Player2'), new Player_1.default('Dvir', 'Player3')];
+var ONE_WAREWOLF_DECK = [Game_2.Roles.Warewolf, Game_2.Roles.Seer, Game_2.Roles.Robber, Game_2.Roles.Troublemaker, Game_2.Roles.Villager, Game_2.Roles.Villager];
+var NO_WAREWOLF_DECK = [Game_2.Roles.Robber, Game_2.Roles.Seer, Game_2.Roles.Troublemaker, Game_2.Roles.Villager, Game_2.Roles.Villager, Game_2.Roles.Villager];
+var ROBBER_DECK = [Game_2.Roles.Robber, Game_2.Roles.Seer, Game_2.Roles.Troublemaker, Game_2.Roles.Villager, Game_2.Roles.Villager, Game_2.Roles.Villager];
+var TROUBLEMAKER_DECK = [Game_2.Roles.Troublemaker, Game_2.Roles.Seer, Game_2.Roles.Robber, Game_2.Roles.Villager, Game_2.Roles.Villager, Game_2.Roles.Villager];
+exports.SimpleGame = function () { return new GameBuilder().withThePlayers(BASIC_GAME_PLAYERS).get(); };
+exports.SoleWareWolfGame = function () { return new GameBuilder().withThePlayers(BASIC_GAME_PLAYERS).withDeck(ONE_WAREWOLF_DECK).get(); };
+exports.NoWareWolfGame = function () { return new GameBuilder().withThePlayers(BASIC_GAME_PLAYERS).withDeck(NO_WAREWOLF_DECK).get(); };
+exports.RobberGame = function () { return new GameBuilder().withThePlayers(BASIC_GAME_PLAYERS).withDeck(ROBBER_DECK).get(); };
+exports.TroublemakerGame = function () { return new GameBuilder().withThePlayers(BASIC_GAME_PLAYERS).withDeck(TROUBLEMAKER_DECK).get(); };

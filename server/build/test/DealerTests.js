@@ -7,7 +7,7 @@ describe('Dealer', function () {
     var dealer;
     beforeEach(function () {
         game = new Game_1.default();
-        dealer = game.setup([new Player_1.default('Gil'), new Player_1.default('AlonY'), new Player_1.default('Dvir')]);
+        dealer = game.setup([new Player_1.default('Gil', 'Player1'), new Player_1.default('AlonY', 'Player2'), new Player_1.default('Dvir', 'Player3')]);
     });
     it('should return a dealer after setup', function () {
         expect(dealer).not.toBeNull();

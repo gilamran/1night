@@ -9,7 +9,7 @@ describe('Dealer', () => {
 
     beforeEach(() => {
         game = new Game();
-        dealer = game.setup([new Player('Gil'), new Player('AlonY'), new Player('Dvir')]);
+        dealer = game.setup([new Player('Gil', 'Player1'), new Player('AlonY', 'Player2'), new Player('Dvir', 'Player3')]);
     });
 
     it('should return a dealer after setup', () => {
