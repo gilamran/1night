@@ -6,17 +6,11 @@ import {Roles} from '../src/Game';
 export default class GameBuilder {
 
     private cards : Roles[];
-    private dealer : Dealer;
     private players : Player[];
 
     get() {
         let game : Game = new Game();
-        if (this.dealer) {
-            game.setup(this.players);
-            game.dealer = this.dealer;
-        } else {
-            game.setup(this.players);
-        }
+        game.setup(this.players);
 
         if (this.cards) {
             game.cards = this.cards;
@@ -45,5 +39,6 @@ let TROUBLEMAKER_DECK = [Roles.Troublemaker, Roles.Seer, Roles.Robber, Roles.Vil
 export var SimpleGame = () => new GameBuilder().withThePlayers(BASIC_GAME_PLAYERS).get();
 export var SoleWareWolfGame = () => new GameBuilder().withThePlayers(BASIC_GAME_PLAYERS).withDeck(ONE_WAREWOLF_DECK).get();
 export var NoWareWolfGame = () => new GameBuilder().withThePlayers(BASIC_GAME_PLAYERS).withDeck(NO_WAREWOLF_DECK).get();
+export var SeerGame = () => new GameBuilder().withThePlayers(BASIC_GAME_PLAYERS).withDeck(ROBBER_DECK).get();
 export var RobberGame = () => new GameBuilder().withThePlayers(BASIC_GAME_PLAYERS).withDeck(ROBBER_DECK).get();
 export var TroublemakerGame = () => new GameBuilder().withThePlayers(BASIC_GAME_PLAYERS).withDeck(TROUBLEMAKER_DECK).get();

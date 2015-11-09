@@ -15,6 +15,10 @@
     "src\\Server.ts",
     "test\\BasicTests.ts",
     "test\\DealerTests.ts",
-    "test\\GameDriver.ts"
+    "test\\GameDriver.ts",
+    "test\\Robber.test.ts",
+    "test\\Seer.test.ts",
+    "test\\TroubleMaker.test.ts",
+    "test\\Warewolfs.test.ts"
   ]
 }
