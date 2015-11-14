@@ -4,10 +4,7 @@ import {ITable} from '../src/Game';
 import Player from '../src/Player';
 
 export default class Dealer {
-    constructor() {
-    }
-
-    shuffleCards(cards : Roles[]):void {
+    shuffleCards(cards : Roles[]) {
         var currentIndex = cards.length;
 
         while (0 !== currentIndex) {
@@ -22,7 +19,7 @@ export default class Dealer {
         }
     }
 
-    dealCards(cards : Roles[], players : Player[], table : ITable):void {
+    dealCards(cards : Roles[], players : Player[], table : ITable) {
        players[0].dealCard( cards[0] );
        players[1].dealCard( cards[1] );
        players[2].dealCard( cards[2] );

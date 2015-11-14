@@ -1,7 +1,7 @@
-import {Roles} from '../src/Game';
-import {OutMessages, InMessages} from '../src/Game';
-import * as GameBuilder from './GameDriver';
-import Game from '../src/Game';
+import {Roles} from './Game';
+import {OutMessages, InMessages} from './Game';
+import * as GameBuilder from './../test/drivers/GameDriver';
+import Game from './Game';
 
 describe('TroubleMaker', () => {
     let game : Game;

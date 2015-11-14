@@ -1,9 +1,9 @@
-import Game from '../src/Game';
-import Dealer from '../src/Dealer';
-import Player from '../src/Player';
-import {Roles} from '../src/Game';
-import {OutMessages, InMessages} from '../src/Game';
-import * as GameBuilder from './GameDriver';
+import Game from './Game';
+import Dealer from './Dealer';
+import Player from './Player';
+import {Roles} from './Game';
+import {OutMessages, InMessages} from './Game';
+import * as GameBuilder from './../test/drivers/GameDriver';
 
 describe('Game', () => {
     let game : Game;
@@ -14,7 +14,24 @@ describe('Game', () => {
         dealer = game.dealer;
     });
 
-    it('should get 3 players after the setup', () => {
+    it('should allow a player to join the game', () => {
+        var tmpGame : Game = new Game();
+        expect(tmpGame.players.length).toBe(0);
+        var player : Player = new Player('DUMMY_PLAYER', 'PLAYER_0');
+        tmpGame.acceptPlayer(player);
+        expect(tmpGame.players.length).toBe(1);
+    });
+
+    it('should allow players to join the game', () => {
+        var tmpGame : Game = new Game();
+        expect(tmpGame.players.length).toBe(0);
+        var player1 : Player = new Player('DUMMY_PLAYER1', 'PLAYER_1');
+        var player2 : Player = new Player('DUMMY_PLAYER2', 'PLAYER_2');
+        tmpGame.acceptPlayers([player1, player2]);
+        expect(tmpGame.players.length).toBe(2);
+    });
+
+    it('should have 3 players after the startGame', () => {
         expect(game.players.length).toBe(3);
     });
 
@@ -29,6 +46,13 @@ describe('Game', () => {
         expect(game.cards[3]).toBe(Roles.Robber);
         expect(game.cards[4]).toBe(Roles.Troublemaker);
         expect(game.cards[5]).toBe(Roles.Villager);
+    });
+
+    it('should marked as started after startGame is called', () => {
+        var tmpGame : Game = new Game();
+        expect(tmpGame.isStarted).toBeFalsy();
+        tmpGame.startGame();
+        expect(tmpGame.isStarted).toBeTruthy();
     });
 
     it('should "inform" players about their role', () => {

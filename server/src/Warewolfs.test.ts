@@ -1,6 +1,6 @@
-import {Roles} from '../src/Game';
-import {OutMessages, InMessages} from '../src/Game';
-import * as GameBuilder from './GameDriver';
+import {Roles} from './Game';
+import {OutMessages, InMessages} from './Game';
+import * as GameBuilder from './../test/drivers/GameDriver';
 
 describe('Warewolfs', () => {
     it('should "inform" warewolfs about each other', () => {

@@ -1,8 +1,8 @@
-import {Roles} from '../src/Game';
-import {OutMessages, InMessages} from '../src/Game';
-import * as GameBuilder from './GameDriver';
-import Dealer from '../src/Dealer';
-import Game from '../src/Game';
+import {Roles} from './Game';
+import {OutMessages, InMessages} from './Game';
+import * as GameBuilder from './../test/drivers/GameDriver';
+import Dealer from './Dealer';
+import Game from './Game';
 
 describe('Robber', () => {
     let game : Game;

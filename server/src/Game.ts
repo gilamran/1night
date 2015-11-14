@@ -35,23 +35,32 @@ export enum Roles {
 }
 
 export default class Game {
-    public players : Player[];
-    public cards   : Roles[];
-    public table   : ITable;
-    public dealer  : Dealer;
+    public players:Player[];
+    public cards:Roles[];
+    public table:ITable;
+    public dealer:Dealer;
+    public isStarted:Boolean;
 
-    constructor() {
+    constructor(public name:string = '', public id:string = '') {
         this.table = {
             cards: []
         };
-
+        this.isStarted = false;
         this.dealer = new Dealer();
         this.players = [];
         this.cards = [Roles.Warewolf, Roles.Warewolf, Roles.Seer, Roles.Robber, Roles.Troublemaker, Roles.Villager];
     }
 
-    public setup(players:Player[]) {
-        this.players = players;
+    public acceptPlayers(players:Player[]) {
+        players.forEach(player => this.acceptPlayer(player));
+    }
+
+    public acceptPlayer(player:Player) {
+        this.players.push(player);
+    }
+
+    public startGame() {
+        this.isStarted = true;
         return this.dealer;
     }
 
@@ -64,7 +73,7 @@ export default class Game {
         return this.players.filter(player => player.dealtRole === role);
     }
 
-    private getPlayer(id:string) {
+    private getPlayer(id:string):Player {
         return this.players.filter(player => player.id === id)[0];
     }
 
@@ -84,77 +93,97 @@ export default class Game {
         return this.getSingleRole(Roles.Troublemaker);
     }
 
-    public gotMessage(player : Player, data : any) {
+    private switchRoles(player1:Player, player2:Player) {
+        var tmpRole = player1.role;
+        player1.role = player2.role;
+        player2.role = tmpRole;
+    }
+
+    public gotMessage(player:Player, data:any) {
         switch (data.message) {
             case InMessages.SeerWantsToSeeTableCards:
-                player.sendMessage({message: OutMessages.ShowCardsToSeer, cards:[this.table.cards[data.cards[0]], this.table.cards[data.cards[1]]]});
+                player.sendMessage({
+                    message: OutMessages.ShowCardsToSeer,
+                    cards: [this.table.cards[data.cards[0]], this.table.cards[data.cards[1]]]
+                });
                 break;
 
             case InMessages.WarewolfWantsToSeeATableCard:
-                player.sendMessage({message: OutMessages.ShowCardToWarewolf, card:this.table.cards[data.card]});
+                player.sendMessage({message: OutMessages.ShowCardToWarewolf, card: this.table.cards[data.card]});
                 break;
 
             case InMessages.RobberWantsToRobeAPlayer:
                 let targetPlayer = this.getPlayer(data.playerId);
-                player.sendMessage({message: OutMessages.GiveRobberHisNewRole, newRole : this.getPlayer(data.playerId).role});
-                targetPlayer.sendMessage({message: OutMessages.RobberTookYourRole, newRole : player.role});
+                player.sendMessage({
+                    message: OutMessages.GiveRobberHisNewRole,
+                    newRole: this.getPlayer(data.playerId).role
+                });
+                targetPlayer.sendMessage({message: OutMessages.RobberTookYourRole, newRole: player.role});
 
-                // switch roles
-                var tmpRole = player.role;
-                player.role = targetPlayer.role;
-                targetPlayer.role = tmpRole;
+                this.switchRoles(player, targetPlayer);
                 break;
 
             case InMessages.TroublemakerSwitchedPlayersCards:
                 let player1 = this.getPlayer(data.playersIds[0]);
                 let player2 = this.getPlayer(data.playersIds[1]);
-                player1.sendMessage({message: OutMessages.TroublemakerSwitchedYourCard, newRole : player2.role});
-                player2.sendMessage({message: OutMessages.TroublemakerSwitchedYourCard, newRole : player1.role});
+                player1.sendMessage({message: OutMessages.TroublemakerSwitchedYourCard, newRole: player2.role});
+                player2.sendMessage({message: OutMessages.TroublemakerSwitchedYourCard, newRole: player1.role});
 
-                // switch roles
-                var tmpRole = player1.role;
-                player1.role = player2.role;
-                player2.role = tmpRole;
+                this.switchRoles(player1, player2);
                 break;
         }
     }
 
     public playRole(role:Roles) {
         switch (role) {
-            case Roles.Warewolf: this.informWarewolfsAboutEachOther(); break;
-            case Roles.Seer: this.askSeerForCards(); break;
-            case Roles.Robber: this.askRobberForAPlayer(); break;
-            case Roles.Troublemaker: this.askTroublemakerForPlayers(); break;
+            case Roles.Warewolf:
+                this.informWarewolfsAboutEachOther();
+                break;
+            case Roles.Seer:
+                this.askSeerForCards();
+                break;
+            case Roles.Robber:
+                this.askRobberForAPlayer();
+                break;
+            case Roles.Troublemaker:
+                this.askTroublemakerForPlayers();
+                break;
         }
     }
 
     public tellPlayersTheirRoles() {
-        this.players[0].sendMessage({message : OutMessages.AssignedRole, role : this.players[0].role});
-        this.players[1].sendMessage({message : OutMessages.AssignedRole, role : this.players[1].role});
-        this.players[2].sendMessage({message : OutMessages.AssignedRole, role : this.players[2].role});
+        this.players[0].sendMessage({message: OutMessages.AssignedRole, role: this.players[0].role});
+        this.players[1].sendMessage({message: OutMessages.AssignedRole, role: this.players[1].role});
+        this.players[2].sendMessage({message: OutMessages.AssignedRole, role: this.players[2].role});
     }
 
     private askSeerForCards() {
-        this.seer.sendMessage({message : OutMessages.AskSeerToChooseCards});
+        this.seer.sendMessage({message: OutMessages.AskSeerToChooseCards});
     }
 
     private askRobberForAPlayer() {
-        this.robber.sendMessage({message : OutMessages.AskRobberToChooseAPlayer});
+        this.robber.sendMessage({message: OutMessages.AskRobberToChooseAPlayer});
     }
 
     private askTroublemakerForPlayers() {
-        this.troublemaker.sendMessage({message : OutMessages.AskTroublemakerToChoosePlayers});
+        this.troublemaker.sendMessage({message: OutMessages.AskTroublemakerToChoosePlayers});
     }
 
     private informWarewolfsAboutEachOther() {
         switch (this.wareWolfs.length) {
             case 1 :
-                this.wareWolfs[0].sendMessage({message : OutMessages.AskWarewolfToChooseACard});
+                this.wareWolfs[0].sendMessage({message: OutMessages.AskWarewolfToChooseACard});
                 break;
 
             case 2 :
-                this.wareWolfs[0].sendMessage({message : OutMessages.RevealOtherWarewolf, playerId : this.wareWolfs[1].id});
-                this.wareWolfs[1].sendMessage({message : OutMessages.RevealOtherWarewolf, playerId : this.wareWolfs[0].id});
+                this.wareWolfs[0].sendMessage({
+                    message: OutMessages.RevealOtherWarewolf,
+                    playerId: this.wareWolfs[1].id
+                });
+                this.wareWolfs[1].sendMessage({
+                    message: OutMessages.RevealOtherWarewolf,
+                    playerId: this.wareWolfs[0].id
+                });
                 break;
         }
     }

@@ -8,17 +8,22 @@
     "target": "ES5"
   },
   "filesGlob": [
-    "{typings/tsd.d.ts,src/Server.ts,test/**/*.ts}"
+    "{typings/tsd.d.ts,src/**/*.ts}"
   ],
   "files": [
     "typings\\tsd.d.ts",
-    "src\\Server.ts",
-    "test\\BasicTests.ts",
-    "test\\DealerTests.ts",
-    "test\\GameDriver.ts",
-    "test\\Robber.test.ts",
-    "test\\Seer.test.ts",
-    "test\\TroubleMaker.test.ts",
-    "test\\Warewolfs.test.ts"
+    "src\\Dealer.test.ts",
+    "src\\Dealer.ts",
+    "src\\Game.test.ts",
+    "src\\Game.ts",
+    "src\\GamesManager.test.ts",
+    "src\\GamesManager.ts",
+    "src\\Player.ts",
+    "src\\PlayersManager.test.ts",
+    "src\\PlayersManager.ts",
+    "src\\Robber.test.ts",
+    "src\\Seer.test.ts",
+    "src\\TroubleMaker.test.ts",
+    "src\\Warewolfs.test.ts"
   ]
 }

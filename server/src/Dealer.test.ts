@@ -1,23 +1,24 @@
-import Game from '../src/Game';
-import Dealer from '../src/Dealer';
-import Player from '../src/Player';
-import {Roles} from '../src/Game';
+import Game from './Game';
+import Dealer from './Dealer';
+import Player from './Player';
+import {Roles} from './Game';
+import * as GameBuilder from './../test/drivers/GameDriver';
 
 describe('Dealer', () => {
     let game : Game;
     let dealer : Dealer;
 
     beforeEach(() => {
-        game = new Game();
-        dealer = game.setup([new Player('Gil', 'Player1'), new Player('AlonY', 'Player2'), new Player('Dvir', 'Player3')]);
+        game = GameBuilder.SimpleGame();
+        dealer = game.dealer;
     });
 
-    it('should return a dealer after setup', () => {
+    it('should return a dealer after startGame', () => {
         expect(dealer).not.toBeNull();
     });
 
     it('should be able to shuffle the cards', () => {
-        var dummyGame : Game = new Game();
+        var dummyGame : Game = new Game('New Game', 'GAME_ID');
         dummyGame.cards = [];
 
         // generate loads of cards

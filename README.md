@@ -4,7 +4,15 @@
 * Each player gets a random card, 3 cards on the table.
 
 
-
+* The game manger api is:
+    * Let players join and leave the server
+    * Let players create new game.
+    * Let players see the open games
+    * Let players join an open game
+    * An open game with 3 player will start automatically
+    * [V2] Let players leave a game that was not started yet
+    * [V2] Let players mark themselves as ready/not-ready 
+    
 * The game states are:
     * setup
     * dealer
