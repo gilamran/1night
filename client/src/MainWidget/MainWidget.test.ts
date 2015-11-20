@@ -4,10 +4,6 @@ describe('Component: mainWidget', () => {
     });
 
     it('Should have a title field', () => {
-        expect(true).toBe(true);
-    });
-
-    it('Should have a title field2', () => {
-        expect(22).toBe(33);
+        expect(true).toBe(false);
     });
 });

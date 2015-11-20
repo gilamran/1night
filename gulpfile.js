@@ -9,6 +9,7 @@ var jasmine = require('gulp-jasmine');
 var nodemon = require('gulp-nodemon');
 var ts = require('gulp-typescript');
 var print = require('gulp-print');
+var KarmaServer = require('karma').Server;
 
 var tsServerFiles = require('./server/tsconfig.json').filesGlob;
 var tsClientFiles = require('./client/tsconfig.json').filesGlob;
@@ -46,6 +47,14 @@ gulp.task('tslint-client', false, () => gulp.src(tsClientFiles).pipe(tslint()));
 gulp.task('test', 'Runs the Server and Client Jasmine tests', gulpSequence('test-server', 'test-client'));
 gulp.task('test-server', false, () => gulp.src('./build/**/*.test.js', {cwd: './server'}).pipe(jasmine()));
 gulp.task('test-client', false, () => gulp.src(['./build/bower_components/angular/angular.js', './build/bower_components/angular-mocks/angular-mocks.js' ,'./build/src/**/*.test.js'], {cwd: './client'}).pipe(jasmine()));
+
+// Client Karma
+gulp.task('ktest', function (done) {
+  new KarmaServer({
+    configFile: __dirname + '/client/karma.conf.js',
+    singleRun: true
+  }, done).start();
+});
 
 // TypeScript compiler
 gulp.task('tsc', 'TypeScript the Server and the Client', gulpSequence(['tsc-server', 'tsc-client']));

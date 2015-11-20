@@ -19,6 +19,11 @@
     "gulp-tsconfig-files": "^0.1.0",
     "gulp-tslint": "^3.5.0",
     "gulp-typescript": "^2.9.2",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.15",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "phantomjs": "^1.9.18",
     "run-sequence": "^1.1.4"
   },
   "dependencies": {
