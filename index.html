@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+</head>
+<body>
+<div ng-app="app" ng-init="a=123">
+
+  <div ng-controller="MainCtrl as main">
+    {{main.button}}
+    {{main.name}}
+
+    <div ng-controller="HouseCtrl as house">
+      {{house.address}}
+      {{house.number}}
+    </div>
+
+
+    <div ng-controller="OldCtrl">
+      {{old.value1}}
+      {{old.value2}}
+    </div>
+  </div>
+</div>
+<script>
+  var app = angular.module("app", []);
+
+  app.controller("MainCtrl", function () {
+    this.name = "NAME";
+    this.button = "BUTTON";
+  });
+
+  app.controller("HouseCtrl", function () {
+    this.address = "ADDRESS";
+    this.number = "NUMBER";
+  });
+
+  app.controller("OldCtrl", function ($scope) {
+    $scope.old = this;
+    this.value1 = "ADDRESS";
+    this.value2 = "NUMBER";
+  });
+</script>
+</body>
+</html>

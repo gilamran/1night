@@ -8,7 +8,12 @@
     "target": "ES5"
   },
   "filesGlob": [
-    "{typings/tsd.d.ts,src/**/*.ts}"
+    "{src,test}/**/*.ts",
+    "typings/tsd.d.ts"
   ],
-  "files": []
+  "files": [
+    "src\\App\\App.ts",
+    "src\\MainWidget\\MainWidget.ts",
+    "typings\\tsd.d.ts"
+  ]
 }

@@ -1,6 +1,6 @@
 import Game from './Game';
 
-export default class GamesManager {
+export class GamesManager {
     public games : Game[];
     private totalGame : number;
 
