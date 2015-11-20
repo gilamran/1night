@@ -8,6 +8,7 @@ var del = require('del');
 var jasmine = require('gulp-jasmine');
 var nodemon = require('gulp-nodemon');
 var ts = require('gulp-typescript');
+var print = require('gulp-print');
 
 var tsServerFiles = require('./server/tsconfig.json').filesGlob;
 var tsClientFiles = require('./client/tsconfig.json').filesGlob;
@@ -26,7 +27,7 @@ gulp.task('clean-server', false, (done) => del('./server/build', done));
 gulp.task('clean-client', false, (done) => del('./client/build', done));
 
 // copy client bower components to build folder
-gulp.task('copy-bower', false, () => gulp.src('./client/bower_components/angular/*.*').pipe(gulp.dest('./client/build/bower_components/angular')));
+gulp.task('copy-bower', false, () => gulp.src('./client/bower_components/**').pipe(gulp.dest('./client/build/bower_components')));
 
 // copy client index.html to build folder
 gulp.task('copy-index', false, () => gulp.src('./client/index.html').pipe(gulp.dest('./client/build')));
@@ -42,9 +43,9 @@ gulp.task('tslint-server', false, () => gulp.src(tsServerFiles).pipe(tslint()));
 gulp.task('tslint-client', false, () => gulp.src(tsClientFiles).pipe(tslint()));
 
 // Tests
-gulp.task('test', 'Runs the Server and Client Jasmine tests', gulpSequence(['test-server', 'test-client']));
+gulp.task('test', 'Runs the Server and Client Jasmine tests', gulpSequence('test-server', 'test-client'));
 gulp.task('test-server', false, () => gulp.src('./build/**/*.test.js', {cwd: './server'}).pipe(jasmine()));
-gulp.task('test-client', false, () => gulp.src('./build/**/*.test.js', {cwd: './client'}).pipe(jasmine()));
+gulp.task('test-client', false, () => gulp.src(['./build/bower_components/angular/angular.js', './build/bower_components/angular-mocks/angular-mocks.js' ,'./build/src/**/*.test.js'], {cwd: './client'}).pipe(jasmine()));
 
 // TypeScript compiler
 gulp.task('tsc', 'TypeScript the Server and the Client', gulpSequence(['tsc-server', 'tsc-client']));

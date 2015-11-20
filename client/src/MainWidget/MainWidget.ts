@@ -21,5 +21,5 @@ module components {
 }
 
 angular
-    .module('OneNight')
+    .module('OneNightApp')
     .directive('mainWidget', components.mainWidget);

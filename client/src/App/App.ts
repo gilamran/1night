@@ -1,1 +1,1 @@
-angular.module('OneNight', []);
+angular.module('OneNightApp', []);
