@@ -15,11 +15,11 @@ namespace testUtils {
         }
 
         public getElement(elementHook:string):angular.IAugmentedJQuery {
-            return this.element.find('[data-hook=' + elementHook + ']');
+            return this.element.find(`[data-hook="${elementHook}"]`);
         }
 
         public getElementText(elementHook:string):string {
-            return this.element.find('[data-hook=' + elementHook + ']').text().trim();
+            return this.element.find(`[data-hook="${elementHook}"]`).text().trim();
         }
     }
 }

@@ -14,10 +14,10 @@ var testUtils;
             });
         };
         BaseDriver.prototype.getElement = function (elementHook) {
-            return this.element.find('[data-hook=' + elementHook + ']');
+            return this.element.find("[data-hook=\"" + elementHook + "\"]");
         };
         BaseDriver.prototype.getElementText = function (elementHook) {
-            return this.element.find('[data-hook=' + elementHook + ']').text().trim();
+            return this.element.find("[data-hook=\"" + elementHook + "\"]").text().trim();
         };
         return BaseDriver;
     })();

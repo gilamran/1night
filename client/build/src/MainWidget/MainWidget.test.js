@@ -18,6 +18,9 @@ describe('Component: mainWidget', function () {
         driver.init();
     });
     it('Should have a title field', function () {
-        expect(driver.getElement('main-widget-title')).toBeDefined();
+        expect(driver.getElement('main-widget-title')).toBeDisplayed();
+    });
+    it('Should start with a login widget visible', function () {
+        expect(driver.getElement('login-widget')).toBeDisplayed();
     });
 });
