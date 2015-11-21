@@ -1,9 +1,20 @@
+class MainWidgetDriver extends testUtils.BaseDriver {
+    constructor() {
+        super('OneNightApp', 'main-widget', 'mainVM');
+    }
+}
+
+
 describe('Component: mainWidget', () => {
-    beforeEach(function () {
+    var driver : MainWidgetDriver;
+
+    beforeEach(() => {
         angular.mock.module('OneNightApp');
+        driver = new MainWidgetDriver();
+        driver.init();
     });
 
     it('Should have a title field', () => {
-        expect(true).toBe(false);
+        expect(driver.getElement('main-widget-title')).toBeDefined();
     });
 });

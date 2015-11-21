@@ -46,10 +46,7 @@ gulp.task('tslint-client', false, () => gulp.src(tsClientFiles).pipe(tslint()));
 // Tests
 gulp.task('test', 'Runs the Server and Client Jasmine tests', gulpSequence('test-server', 'test-client'));
 gulp.task('test-server', false, () => gulp.src('./build/**/*.test.js', {cwd: './server'}).pipe(jasmine()));
-gulp.task('test-client', false, () => gulp.src(['./build/bower_components/angular/angular.js', './build/bower_components/angular-mocks/angular-mocks.js' ,'./build/src/**/*.test.js'], {cwd: './client'}).pipe(jasmine()));
-
-// Client Karma
-gulp.task('ktest', function (done) {
+gulp.task('test-client', (done) => {
   new KarmaServer({
     configFile: __dirname + '/client/karma.conf.js',
     singleRun: true
@@ -65,7 +62,7 @@ gulp.task('tsc-server', () => {
 });
 
 gulp.task('tsc-client', () => {
-  return gulp.src(tsServerFiles, {cwd: './client'})
+  return gulp.src(tsClientFiles, {cwd: './client'})
     .pipe(ts(tsClientProject))
     .js.pipe(gulp.dest('./client/build'));
 });
@@ -75,7 +72,7 @@ gulp.task('build', 'Compiles all TypeScript source files', gulpSequence('update-
 
 gulp.task('build_and_test', false, gulpSequence('build', 'test'));
 
-gulp.task('serve', 'Build, run server and watch', gulpSequence('clean', 'build', 'test', 'client-copy', 'nodemon'));
+gulp.task('serve', 'Build, run server and watch', gulpSequence('clean', 'build', 'client-copy', 'test', 'nodemon'));
 
 gulp.task('nodemon', function () {
   nodemon({

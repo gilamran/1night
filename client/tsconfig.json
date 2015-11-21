@@ -9,6 +9,7 @@
   },
   "filesGlob": [
     "src/**/*.ts",
+    "testUtils/**/*.ts",
     "typings/tsd.d.ts"
   ],
   "files": [
@@ -16,6 +17,8 @@
     "src\\LoginWidget\\LoginWidget.ts",
     "src\\MainWidget\\MainWidget.test.ts",
     "src\\MainWidget\\MainWidget.ts",
+    "testUtils\\BaseDriver.ts",
+    "testUtils\\componentCompiler.ts",
     "typings\\tsd.d.ts"
   ]
 }

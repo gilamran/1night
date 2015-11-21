@@ -2,19 +2,29 @@
 
 module.exports = function (config) {
   config.set({
-    plugins: ['karma-jasmine', 'karma-phantomjs-launcher'],
+    plugins: ['karma-jasmine', 'karma-phantomjs-launcher', 'karma-chrome-launcher', 'karma-ng-html2js-preprocessor'],
 
     // base path, that will be used to resolve files and exclude
     basePath: 'build',
 
     // testing framework to use (jasmine/mocha/qunit/...)
+    preprocessors: {
+      'src/**/*.html': 'ng-html2js'
+    },
+
+    ngHtml2JsPreprocessor: {
+      moduleName: 'OneNightApp'
+    },
+
     frameworks: ['jasmine'],
 
     // list of files / patterns to load in the browser
     files: [
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
-      'src/**/*.js'
+      'testUtils/**/*.js',
+      'src/**/*.js',
+      'src/**/*.html'
     ],
 
     // list of files / patterns to exclude
@@ -42,7 +52,7 @@ module.exports = function (config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
