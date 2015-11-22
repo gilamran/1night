@@ -1,5 +1,8 @@
 module components {
     export class MainWidgetController {
+        public onLogin() {
+            console.log('onLogin');
+        }
     }
 
     /* @ngInject */

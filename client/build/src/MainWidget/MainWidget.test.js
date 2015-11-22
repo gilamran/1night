@@ -6,8 +6,11 @@ var __extends = (this && this.__extends) || function (d, b) {
 var MainWidgetDriver = (function (_super) {
     __extends(MainWidgetDriver, _super);
     function MainWidgetDriver() {
-        _super.call(this, 'OneNightApp', 'main-widget', 'mainVM');
+        _super.call(this, 'OneNightApp');
     }
+    MainWidgetDriver.prototype.init = function () {
+        this.element = testUtils.compileComponent('<main-widget></main-widget>');
+    };
     return MainWidgetDriver;
 })(testUtils.BaseDriver);
 describe('Component: mainWidget', function () {
@@ -21,6 +24,6 @@ describe('Component: mainWidget', function () {
         expect(driver.getElement('main-widget-title')).toBeDisplayed();
     });
     it('Should start with a login widget visible', function () {
-        expect(driver.getElement('login-widget')).toBeDisplayed();
+        expect(driver.getElement('login-widget')).toBePresent();
     });
 });

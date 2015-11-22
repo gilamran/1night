@@ -6,8 +6,12 @@ var __extends = (this && this.__extends) || function (d, b) {
 var LoginWidgetDriver = (function (_super) {
     __extends(LoginWidgetDriver, _super);
     function LoginWidgetDriver() {
-        _super.call(this, 'OneNightApp', 'login-widget', 'loginVM');
+        _super.call(this, 'OneNightApp');
+        this.outerScope = testUtils.createScope({ onLogin: jasmine.createSpy('onLogin') });
     }
+    LoginWidgetDriver.prototype.init = function () {
+        this.element = testUtils.compileComponent('<login-widget on-login="onLogin()"></login-widget>', this.outerScope);
+    };
     return LoginWidgetDriver;
 })(testUtils.BaseDriver);
 describe('Component: loginWidget', function () {
@@ -23,5 +27,9 @@ describe('Component: loginWidget', function () {
     it('Should have a login button', function () {
         expect(driver.getElement('login-button')).toBeDisplayed();
         expect(driver.getElement('login-button').text()).toBe('Login');
+    });
+    it('Should call the given callback when then login button was clicked', function () {
+        driver.getElement('login-button').click();
+        expect(driver.outerScope.onLogin).toHaveBeenCalled();
     });
 });

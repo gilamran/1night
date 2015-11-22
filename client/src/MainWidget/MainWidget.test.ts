@@ -1,10 +1,12 @@
-
 class MainWidgetDriver extends testUtils.BaseDriver {
     constructor() {
-        super('OneNightApp', 'main-widget', 'mainVM');
+        super('OneNightApp');
+    }
+
+    public init():void {
+        this.element = testUtils.compileComponent('<main-widget></main-widget>');
     }
 }
-
 
 describe('Component: mainWidget', () => {
     var driver : MainWidgetDriver;
@@ -20,6 +22,6 @@ describe('Component: mainWidget', () => {
     });
 
     it('Should start with a login widget visible', () => {
-        expect(driver.getElement('login-widget')).toBeDisplayed();
+        expect(driver.getElement('login-widget')).toBePresent();
     });
 });

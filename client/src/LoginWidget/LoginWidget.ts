@@ -1,5 +1,12 @@
 module components {
     export class LoginWidgetController {
+        public onLogin  : Function;
+
+        public onLoginButtonClicked() {
+            if (typeof this.onLogin === 'function') {
+                this.onLogin();
+            }
+        }
     }
 
     /* @ngInject */
@@ -10,7 +17,10 @@ module components {
             templateUrl: 'src/LoginWidget/view.html',
             controller: LoginWidgetController,
             controllerAs: 'loginVM',
-            bindToController: true
+            bindToController: true,
+            scope: {
+                onLogin : '&'
+            }
         };
     }
 }

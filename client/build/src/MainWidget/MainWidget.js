@@ -3,6 +3,9 @@ var components;
     var MainWidgetController = (function () {
         function MainWidgetController() {
         }
+        MainWidgetController.prototype.onLogin = function () {
+            console.log('onLogin');
+        };
         return MainWidgetController;
     })();
     components.MainWidgetController = MainWidgetController;

@@ -3,6 +3,11 @@ var components;
     var LoginWidgetController = (function () {
         function LoginWidgetController() {
         }
+        LoginWidgetController.prototype.onLoginButtonClicked = function () {
+            if (typeof this.onLogin === 'function') {
+                this.onLogin();
+            }
+        };
         return LoginWidgetController;
     })();
     components.LoginWidgetController = LoginWidgetController;
@@ -13,7 +18,10 @@ var components;
             templateUrl: 'src/LoginWidget/view.html',
             controller: LoginWidgetController,
             controllerAs: 'loginVM',
-            bindToController: true
+            bindToController: true,
+            scope: {
+                onLogin: '&'
+            }
         };
     }
     components.loginWidget = loginWidget;
