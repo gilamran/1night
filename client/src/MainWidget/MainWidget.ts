@@ -1,10 +1,5 @@
 module components {
     export class MainWidgetController {
-        public value : string;
-
-        constructor() {
-            this.value = 'Value from the controller';
-        }
     }
 
     /* @ngInject */

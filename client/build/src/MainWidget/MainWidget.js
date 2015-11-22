@@ -2,7 +2,6 @@ var components;
 (function (components) {
     var MainWidgetController = (function () {
         function MainWidgetController() {
-            this.value = 'Value from the controller';
         }
         return MainWidgetController;
     })();

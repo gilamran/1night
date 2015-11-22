@@ -17,7 +17,11 @@ describe('Component: loginWidget', function () {
         driver = new LoginWidgetDriver();
         driver.init();
     });
-    it('Should have a title field', function () {
-        expect(driver.getElement('login-widget-title')).toBeDisplayed();
+    it('Should have a username field', function () {
+        expect(driver.getElement('login-username-input')).toBeDisplayed();
+    });
+    it('Should have a login button', function () {
+        expect(driver.getElement('login-button')).toBeDisplayed();
+        expect(driver.getElement('login-button').text()).toBe('Login');
     });
 });

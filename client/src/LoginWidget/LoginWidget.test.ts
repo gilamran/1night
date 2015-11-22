@@ -4,7 +4,6 @@ class LoginWidgetDriver extends testUtils.BaseDriver {
     }
 }
 
-
 describe('Component: loginWidget', () => {
     var driver : LoginWidgetDriver;
 
@@ -14,7 +13,12 @@ describe('Component: loginWidget', () => {
         driver.init();
     });
 
-    it('Should have a title field', () => {
-        expect(driver.getElement('login-widget-title')).toBeDisplayed();
+    it('Should have a username field', () => {
+        expect(driver.getElement('login-username-input')).toBeDisplayed();
+    });
+
+    it('Should have a login button', () => {
+        expect(driver.getElement('login-button')).toBeDisplayed();
+        expect(driver.getElement('login-button').text()).toBe('Login');
     });
 });
