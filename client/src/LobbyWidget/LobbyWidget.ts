@@ -4,6 +4,7 @@ module components {
      * @type LobbyWidgetController
      */
     export class LobbyWidgetController {
+        static CONTROLLER_AS : string = 'lobbyVM';
         constructor() {
         }
     }
@@ -14,7 +15,7 @@ module components {
             replace: true,
             templateUrl: 'src/LobbyWidget/view.html',
             controller: LobbyWidgetController,
-            controllerAs: 'lobbyVM',
+            controllerAs: LobbyWidgetController.CONTROLLER_AS,
             bindToController: true
         };
     }

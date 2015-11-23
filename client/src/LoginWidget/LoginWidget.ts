@@ -4,16 +4,19 @@ module components {
      * @type LoginWidgetController
      */
     export class LoginWidgetController {
+        static CONTROLLER_AS : string = 'loginVM';
+
         public onLoginSucceed   : () => void;
         public playerName       : string;
 
-        constructor(private ioSocket:SocketIOClient.Socket) {
+        constructor(private ioSocket:SocketIOClient.Socket, private $rootScope:ng.IRootScopeService) {
             this.ioSocket.on('PLAYER_LOGIN_SUCCEED', () => this.callOnLoginSuccess());
         }
 
         private callOnLoginSuccess() {
             if (typeof this.onLoginSucceed === 'function') {
                 this.onLoginSucceed();
+                this.$rootScope.$apply();
             }
         }
 
@@ -29,7 +32,7 @@ module components {
             replace: true,
             templateUrl: 'src/LoginWidget/view.html',
             controller: LoginWidgetController,
-            controllerAs: 'loginVM',
+            controllerAs: LoginWidgetController.CONTROLLER_AS,
             bindToController: true,
             scope: {
                 onLoginSucceed : '&'

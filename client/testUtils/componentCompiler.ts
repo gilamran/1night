@@ -1,6 +1,10 @@
 namespace testUtils {
+    export function applyChanges() {
+        inject(($rootScope:any) => $rootScope.$apply());
+    }
+
     export function createScope(values?:any) {
-        var scope : any = undefined;
+        var scope:any = undefined;
         inject(($rootScope:any) => {
             scope = $rootScope.$new();
             if (values) {

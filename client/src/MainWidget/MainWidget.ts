@@ -4,11 +4,15 @@ module components {
      * @type MainWidgetController
      */
     export class MainWidgetController {
+        static CONTROLLER_AS : string = 'mainVM';
+
+        public logged : boolean;
         constructor() {
+            this.logged = false;
         }
 
         public onLoginSucceed() {
-            console.log('onLoginSucceed');
+            this.logged = true;
         }
     }
     /* @ngInject */
@@ -18,7 +22,7 @@ module components {
             replace: true,
             templateUrl: 'src/MainWidget/view.html',
             controller: MainWidgetController,
-            controllerAs: 'mainVM',
+            controllerAs: MainWidgetController.CONTROLLER_AS,
             bindToController: true
         };
     }

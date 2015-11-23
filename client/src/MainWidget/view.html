@@ -1,4 +1,5 @@
 <div class="main-widget">
   <h1 data-hook="main-widget-title">1 Night Warewolf</h1>
-  <login-widget data-hook="login-widget" on-login-succeed="mainVM.onLoginSucceed()"></login-widget>
+  <login-widget ng-if="!mainVM.logged" data-hook="login-widget" on-login-succeed="mainVM.onLoginSucceed()"></login-widget>
+  <lobby-widget ng-if="mainVM.logged" data-hook="lobby-widget"></lobby-widget>
 </div>
