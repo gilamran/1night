@@ -11,7 +11,7 @@ var print = require('gulp-print');
 var KarmaServer = require('karma').Server;
 var spawn = require('child_process').spawn;
 
-var nodeServer;
+var nodeDevServer;
 
 var tsServerFiles = require('./server/tsconfig.json').filesGlob;
 var tsClientFiles = require('./client/tsconfig.json').filesGlob;
@@ -49,10 +49,15 @@ gulp.task('tslint-client', false, () => gulp.src(tsClientFiles).pipe(tslint()));
 gulp.task('test', 'Runs the Server and Client Jasmine tests', done => gulpSequence('test-server', 'test-client')(done));
 gulp.task('test-server', false, () => gulp.src('./build/**/*.test.js', {cwd: './server'}).pipe(jasmine()));
 gulp.task('test-client', (done) => {
+  var nodeTestsServer = spawnNode(9000);
+
   new KarmaServer({
     configFile: __dirname + '/client/karma.conf.js',
     singleRun: true
-  }, done).start();
+  }, () => {
+    nodeTestsServer.kill();
+    done();
+  }).start();
 });
 
 // TypeScript compiler
@@ -69,28 +74,37 @@ gulp.task('tsc-client', () => {
     .js.pipe(gulp.dest('./client/build'));
 });
 
-gulp.task('node-server', function() {
-  if (nodeServer)
-    nodeServer.kill();
+function spawnNode(port) {
+  var node = spawn('node', ['server.js', `--port=${port}`], {stdio: 'inherit'});
 
-  nodeServer = spawn('node', ['server.js'], {stdio: 'inherit'});
-
-  nodeServer.on('close', code => {
+  node.on('close', code => {
     if (code === 8) {
       gulp.log('Error detected, waiting for changes...');
     }
   });
-});
+
+  return node;
+}
+
+function runNode(node, port) {
+  if (node)
+    node.kill();
+
+  node = spawnNode(port);
+  return node;
+}
+
+gulp.task('node-dev-server', () => runNode(nodeDevServer, 8080));
 
 gulp.task('watch', false, () => {
   watch('./client/src/**/view.html', {ignoreInitial: true}, 'copy-client-views');
   watch('./client/index.html', {ignoreInitial: true}, 'copy-index');
   watch('./client/src/**/*.ts', {ignoreInitial: true}, ['build-client', 'test-client']);
-  watch('./server/src/**/*.ts', {ignoreInitial: true}, ['build-server', 'test-server', 'node-server']);
+  watch('./server/src/**/*.ts', {ignoreInitial: true}, ['build-server', 'test-server', 'node-dev-server']);
 });
 
 gulp.task('build', 'build the client and the server', done => gulpSequence(['build-client', 'build-server'])(done));
 gulp.task('build-server', 'Compiles the server TypeScript source files', done => gulpSequence('update-tsconfig-server', 'tslint-server', 'tsc-server')(done));
 gulp.task('build-client', 'Compiles the client TypeScript source files', done => gulpSequence('update-tsconfig-client', 'tslint-client', 'tsc-client')(done));
 
-gulp.task('serve', 'Build, run server and watch', done => gulpSequence('clean', 'build', 'client-copy', 'test', 'watch', 'node-server')(done));
+gulp.task('serve', 'Build, run server and watch', done => gulpSequence('clean', 'build', 'client-copy', 'test', 'watch', 'node-dev-server')(done));

@@ -1,3 +1,4 @@
+var options = require('./server-options');
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
@@ -5,7 +6,7 @@ var io = require('socket.io')(server);
 var serverManager = require('./server/build/src/ServerManager').serverManager;
 
 // setup the server
-server.listen(8080, () => {
+server.listen(options.port, () => {
   var host = server.address().address;
   var port = server.address().port;
 
