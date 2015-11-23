@@ -7,8 +7,8 @@ module components {
         constructor() {
         }
 
-        public onLogin(playerName:string) {
-            console.log('onLogin', playerName);
+        public onLoginSucceed() {
+            console.log('onLoginSucceed');
         }
     }
     /* @ngInject */
