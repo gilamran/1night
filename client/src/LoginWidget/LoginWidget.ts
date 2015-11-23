@@ -1,12 +1,24 @@
 module components {
+    /**
+     * @name loginVM
+     * @type LoginWidgetController
+     */
     export class LoginWidgetController {
-        public onLogin  : Function;
-        public userName  : string;
+        public onLogin     : () => void;
+        public playerName  : string;
+
+        constructor(private ioSocket:SocketIOClient.Socket) {
+            this.ioSocket.on('PLAYER_LOGIN_SUCCEED', () => this.callOnLoginSuccess());
+        }
+
+        private callOnLoginSuccess() {
+            if (typeof this.onLogin === 'function') {
+                this.onLogin();
+            }
+        }
 
         public onLoginButtonClicked() {
-            if (typeof this.onLogin === 'function') {
-                this.onLogin({userName : this.userName});
-            }
+            this.ioSocket.emit('PLAYER_LOGIN', this.playerName);
         }
     }
 

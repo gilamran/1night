@@ -26,10 +26,11 @@ io.on('connection', socket => {
   var addedPlayer = false;
   console.log(`socket.io got new connection`);
 
-  socket.on('player login', playerName => {
-    console.log(`socket.io got "player login" message with "${playerName}"`);
+  socket.on('PLAYER_LOGIN', playerName => {
+    console.log(`socket.io got "PLAYER_LOGIN" message with "${playerName}"`);
     socket.playerId = serverManager.playersManager.playerLogin(playerName);
     addedPlayer = true;
+    socket.emit('PLAYER_LOGIN_SUCCEED', socket.playerId);
   });
 
   socket.on('disconnect', () => {

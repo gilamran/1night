@@ -1,11 +1,14 @@
 module components {
+    /**
+     * @name mainVM
+     * @type MainWidgetController
+     */
     export class MainWidgetController {
-        constructor(ioService:SocketIOClientStatic) {
-            ioService.connect('http://localhost:9000');
+        constructor() {
         }
 
-        public onLogin(username:string) {
-            console.log('onLogin', username);
+        public onLogin(playerName:string) {
+            console.log('onLogin', playerName);
         }
     }
     /* @ngInject */

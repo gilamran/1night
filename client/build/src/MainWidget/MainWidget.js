@@ -1,11 +1,10 @@
 var components;
 (function (components) {
     var MainWidgetController = (function () {
-        function MainWidgetController(ioService) {
-            ioService.connect('http://localhost:9000');
+        function MainWidgetController() {
         }
-        MainWidgetController.prototype.onLogin = function (username) {
-            console.log('onLogin', username);
+        MainWidgetController.prototype.onLogin = function (playerName) {
+            console.log('onLogin', playerName);
         };
         return MainWidgetController;
     })();

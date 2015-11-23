@@ -1,17 +1,17 @@
 class LoginWidgetDriver extends testUtils.BaseDriver {
     public outerScope:any;
-    public $http:ng.IHttpService;
+    public ioSocket:SocketIOClient.Socket;
 
     constructor() {
         super('OneNightApp');
-        this.outerScope = testUtils.createScope( {onLogin: jasmine.createSpy('onLogin')} );
-        inject((_$http_:ng.IHttpService) => {
-            this.$http = _$http_;
+        inject((_ioSocket_:SocketIOClient.Socket) => {
+            this.ioSocket = _ioSocket_;
         });
+        this.outerScope = testUtils.createScope({ onLogin: () => {} });
     }
 
     public init():void {
-        this.element = testUtils.compileComponent('<login-widget on-login="onLogin(userName)"></login-widget>', this.outerScope);
+        this.element = testUtils.compileComponent('<login-widget on-login="onLogin()"></login-widget>', this.outerScope);
     }
 }
 
@@ -24,8 +24,8 @@ describe('Component: loginWidget', () => {
         driver.init();
     });
 
-    it('Should have a username field', () => {
-        expect(driver.getElement('login-username-input')).toBeDisplayed();
+    it('Should have a player name field', () => {
+        expect(driver.getElement('login-player-name-input')).toBeDisplayed();
     });
 
     it('Should have a login button', () => {
@@ -33,14 +33,20 @@ describe('Component: loginWidget', () => {
         expect(driver.getElement('login-button').text()).toBe('Login');
     });
 
-    xit('Should call $http when the login button was clicked', () => {
+    it('Should send a LOGIN message when login button was clicked', () => {
+        spyOn(driver.ioSocket, 'emit').and.callThrough();
+
+        driver.getElement('login-player-name-input').val('PLAYER_NAME1').trigger('input');
         driver.getElement('login-button').click();
-        expect(driver.$http.get).toHaveBeenCalledWith(`http://localhost:8080//api/playerLogin`);
+        expect(driver.ioSocket.emit).toHaveBeenCalledWith('PLAYER_LOGIN', 'PLAYER_NAME1');
     });
-    //
-    //it('Should call the given callback when then login button was clicked', () => {
-    //    driver.getElement('login-username-input').val('USER_NAME').trigger('input');
-    //    driver.getElement('login-button').click();
-    //    expect(driver.outerScope.onLogin).toHaveBeenCalledWith('USER_NAME');
-    //});
+
+    it('Should respond to PLAYER_LOGIN_SUCCEED by calling the given callback', (done) => {
+        var spy = spyOn(driver.outerScope, 'onLogin').and.callFake(() => {
+            expect(spy).toHaveBeenCalled();
+            done();
+        });
+        driver.getElement('login-player-name-input').val('PLAYER_NAME2').trigger('input');
+        driver.getElement('login-button').click();
+    });
 });

@@ -25,13 +25,16 @@ module.exports = function (config) {
       'node_modules/angular-mocks/angular-mocks.js',
       'node_modules/socket.io-client/socket.io.js',
       'testUtils/jasmineMatchers.js',
+      'src/Config/OneNightAppConfig-For-Tests.js',
       'testUtils/**/*.js',
       'src/**/*.js',
       'src/**/*.html'
     ],
 
     // list of files / patterns to exclude
-    exclude: [],
+    exclude: [
+      'src/Config/OneNightAppConfig.js'
+    ],
 
     // test results reporter to use
     // possible values: dots || progress || growl

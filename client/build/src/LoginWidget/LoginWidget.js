@@ -1,12 +1,18 @@
 var components;
 (function (components) {
     var LoginWidgetController = (function () {
-        function LoginWidgetController() {
+        function LoginWidgetController(ioSocket) {
+            var _this = this;
+            this.ioSocket = ioSocket;
+            this.ioSocket.on('PLAYER_LOGIN_SUCCEED', function () { return _this.callOnLoginSuccess(); });
         }
-        LoginWidgetController.prototype.onLoginButtonClicked = function () {
+        LoginWidgetController.prototype.callOnLoginSuccess = function () {
             if (typeof this.onLogin === 'function') {
-                this.onLogin({ userName: this.userName });
+                this.onLogin();
             }
+        };
+        LoginWidgetController.prototype.onLoginButtonClicked = function () {
+            this.ioSocket.emit('PLAYER_LOGIN', this.playerName);
         };
         return LoginWidgetController;
     })();
