@@ -7,11 +7,11 @@ class LoginWidgetDriver extends testUtils.BaseDriver {
         inject((_ioSocket_:SocketIOClient.Socket) => {
             this.ioSocket = _ioSocket_;
         });
-        this.outerScope = testUtils.createScope({ onLogin: () => {} });
+        this.outerScope = testUtils.createScope({ onLoginSucceed: () => {} });
     }
 
     public init():void {
-        this.element = testUtils.compileComponent('<login-widget on-login="onLogin()"></login-widget>', this.outerScope);
+        this.element = testUtils.compileComponent('<login-widget on-login-succeed="onLoginSucceed()"></login-widget>', this.outerScope);
     }
 }
 
@@ -42,7 +42,7 @@ describe('Component: loginWidget', () => {
     });
 
     it('Should respond to PLAYER_LOGIN_SUCCEED by calling the given callback', (done) => {
-        var spy = spyOn(driver.outerScope, 'onLogin').and.callFake(() => {
+        var spy = spyOn(driver.outerScope, 'onLoginSucceed').and.callFake(() => {
             expect(spy).toHaveBeenCalled();
             done();
         });
