@@ -1,7 +1,7 @@
 var nodeOptions = require('node-options');
 
 var options =  {
-  port    : process.env.PORT | 3000,
+  port    : 8080,
   verbose : false
 };
 

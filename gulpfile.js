@@ -13,6 +13,9 @@ var spawn = require('child_process').spawn;
 
 var nodeDevServer;
 
+var SERVER_PORT = 8080;
+var TESTS_SERVER_PORT = 9000;
+
 var tsServerFiles = require('./server/tsconfig.json').filesGlob;
 var tsClientFiles = require('./client/tsconfig.json').filesGlob;
 
@@ -40,7 +43,7 @@ function runNode(node, port) {
 }
 
 function runKarma(done, liveMode) {
-  var nodeTestsServer = spawnNode(9000);
+  var nodeTestsServer = spawnNode(TESTS_SERVER_PORT);
 
   new KarmaServer({
     configFile: __dirname + '/client/karma.conf.js',
@@ -98,7 +101,7 @@ gulp.task('tsc-client', () => {
     .js.pipe(gulp.dest('./client/build'));
 });
 
-gulp.task('node-dev-server', () => runNode(nodeDevServer, 8080));
+gulp.task('node-dev-server', () => runNode(nodeDevServer, SERVER_PORT));
 
 gulp.task('watch', false, () => {
   watch('./client/src/**/view.html', {ignoreInitial: true}, 'copy-client-views');
