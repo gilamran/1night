@@ -2,7 +2,6 @@ var components;
 (function (components) {
     var MainWidgetController = (function () {
         function MainWidgetController(ioService) {
-            this.ioService = ioService;
             ioService.connect('http://localhost:9000');
         }
         MainWidgetController.prototype.onLogin = function (username) {

@@ -1,6 +1,6 @@
 module components {
     export class MainWidgetController {
-        constructor(private ioService:SocketIOClientStatic) {
+        constructor(ioService:SocketIOClientStatic) {
             ioService.connect('http://localhost:9000');
         }
 
