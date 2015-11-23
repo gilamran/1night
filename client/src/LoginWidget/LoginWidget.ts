@@ -9,19 +9,17 @@ module components {
         public onLoginSucceed   : () => void;
         public playerName       : string;
 
-        constructor(private ioSocket:SocketIOClient.Socket, private $rootScope:ng.IRootScopeService) {
-            this.ioSocket.on('PLAYER_LOGIN_SUCCEED', () => this.callOnLoginSuccess());
+        constructor(private messagesManager:services.MessagesManager) {
         }
 
         private callOnLoginSuccess() {
             if (typeof this.onLoginSucceed === 'function') {
                 this.onLoginSucceed();
-                this.$rootScope.$apply();
             }
         }
 
         public onLoginButtonClicked() {
-            this.ioSocket.emit('PLAYER_LOGIN', this.playerName);
+            this.messagesManager.doLogin(this.playerName).then(() => this.callOnLoginSuccess());
         }
     }
 
