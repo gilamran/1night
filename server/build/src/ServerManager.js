@@ -1,5 +1,5 @@
-var GamesManager_1 = require("./GamesManager");
-var PlayersManager_1 = require("./PlayersManager");
+var GamesManager_1 = require('./GamesManager');
+var PlayersManager_1 = require('./PlayersManager');
 var ServerManager = (function () {
     function ServerManager() {
         this.gamesManager = new GamesManager_1.GamesManager();
@@ -7,4 +7,4 @@ var ServerManager = (function () {
     }
     return ServerManager;
 })();
-exports.ServerManager = ServerManager;
+exports.serverManager = new ServerManager();

@@ -25,4 +25,8 @@ export default class PlayersManager {
     get playersCount():number {
         return this.players.length;
     }
+
+    get playersNames():string[] {
+        return this.players.map((player:Player) => player.name);
+    }
 }

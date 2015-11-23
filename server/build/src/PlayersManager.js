@@ -21,6 +21,13 @@ var PlayersManager = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(PlayersManager.prototype, "playersNames", {
+        get: function () {
+            return this.players.map(function (player) { return player.name; });
+        },
+        enumerable: true,
+        configurable: true
+    });
     return PlayersManager;
 })();
 Object.defineProperty(exports, "__esModule", { value: true });

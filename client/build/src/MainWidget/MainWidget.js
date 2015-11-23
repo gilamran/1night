@@ -3,8 +3,8 @@ var components;
     var MainWidgetController = (function () {
         function MainWidgetController() {
         }
-        MainWidgetController.prototype.onLogin = function () {
-            console.log('onLogin');
+        MainWidgetController.prototype.onLogin = function (username) {
+            console.log('onLogin', username);
         };
         return MainWidgetController;
     })();

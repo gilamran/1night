@@ -1,8 +1,7 @@
-import Game from './Game';
-import {GamesManager} from "./GamesManager";
-import PlayersManager from "./PlayersManager";
+import {GamesManager} from './GamesManager';
+import PlayersManager from './PlayersManager';
 
-export class ServerManager {
+class ServerManager {
    public gamesManager : GamesManager;
    public playersManager : PlayersManager;
 
@@ -11,3 +10,5 @@ export class ServerManager {
         this.playersManager = new PlayersManager();
     }
 }
+
+export var serverManager = new ServerManager();

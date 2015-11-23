@@ -1,10 +1,11 @@
 module components {
     export class LoginWidgetController {
         public onLogin  : Function;
+        public userName  : string;
 
         public onLoginButtonClicked() {
             if (typeof this.onLogin === 'function') {
-                this.onLogin();
+                this.onLogin({userName : this.userName});
             }
         }
     }

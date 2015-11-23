@@ -1,7 +1,7 @@
 module components {
     export class MainWidgetController {
-        public onLogin() {
-            console.log('onLogin');
+        public onLogin(username:string) {
+            console.log('onLogin', username);
         }
     }
 

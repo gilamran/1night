@@ -12,4 +12,9 @@ describe('Players Manager', function () {
         playersManager.playerLogout(player1Id);
         expect(playersManager.playersCount).toBe(1);
     });
+    it('should return an array of the players names, when asked to', function () {
+        playersManager.playerLogin('PLAYER1');
+        playersManager.playerLogin('PLAYER2');
+        expect(playersManager.playersNames).toEqual(['PLAYER1', 'PLAYER2']);
+    });
 });

@@ -1,19 +1,43 @@
 var express = require('express');
-
-var ServerManager = require('./server/build/src/ServerManager').ServerManager;
-var serverManager = new ServerManager();
-
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+var serverManager = require('./server/build/src/ServerManager').serverManager;
 
-app.use(express.static('client/build/'));
-
-app.get('/api/playerLogin', function (req, res) {
-  res.send('Hello World!');
-});
-
-var server = app.listen(8080, function () {
+// setup the server
+server.listen(8080, () => {
   var host = server.address().address;
   var port = server.address().port;
 
-  console.log('Example app listening at http://%s:%s', host, port);
+  console.log(`1-Night Server listening at http://${host}:${port}`);
+});
+
+// API for getters
+app.get('/api/players', (req, res) => {
+  res.send(JSON.stringify(serverManager.playersManager.playersNames));
+});
+
+// Client statics
+app.use(express.static('client/build/'));
+
+// socket.io stuff
+io.on('connection', socket => {
+  var addedPlayer = false;
+
+  socket.on('player login', playerName => {
+    console.log(`socket.io got "player login" message with "${playerName}"`);
+    socket.playerId = serverManager.playersManager.playerLogin(playerName);
+    addedPlayer = true;
+  });
+
+  socket.on('disconnect', () => {
+    if (addedPlayer) {
+      serverManager.playersManager.playerLogout(socket.playerId);
+
+      // echo globally that this player has left
+      socket.broadcast.emit('player left', {
+        playerId: socket.playerId
+      });
+    }
+  });
 });

@@ -6,11 +6,15 @@ var __extends = (this && this.__extends) || function (d, b) {
 var LoginWidgetDriver = (function (_super) {
     __extends(LoginWidgetDriver, _super);
     function LoginWidgetDriver() {
+        var _this = this;
         _super.call(this, 'OneNightApp');
         this.outerScope = testUtils.createScope({ onLogin: jasmine.createSpy('onLogin') });
+        inject(function (_$http_) {
+            _this.$http = _$http_;
+        });
     }
     LoginWidgetDriver.prototype.init = function () {
-        this.element = testUtils.compileComponent('<login-widget on-login="onLogin()"></login-widget>', this.outerScope);
+        this.element = testUtils.compileComponent('<login-widget on-login="onLogin(userName)"></login-widget>', this.outerScope);
     };
     return LoginWidgetDriver;
 })(testUtils.BaseDriver);
@@ -28,8 +32,8 @@ describe('Component: loginWidget', function () {
         expect(driver.getElement('login-button')).toBeDisplayed();
         expect(driver.getElement('login-button').text()).toBe('Login');
     });
-    it('Should call the given callback when then login button was clicked', function () {
+    xit('Should call $http when the login button was clicked', function () {
         driver.getElement('login-button').click();
-        expect(driver.outerScope.onLogin).toHaveBeenCalled();
+        expect(driver.$http.get).toHaveBeenCalledWith("http://localhost:8080//api/playerLogin");
     });
 });

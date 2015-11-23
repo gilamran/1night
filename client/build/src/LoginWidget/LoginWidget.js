@@ -5,7 +5,7 @@ var components;
         }
         LoginWidgetController.prototype.onLoginButtonClicked = function () {
             if (typeof this.onLogin === 'function') {
-                this.onLogin();
+                this.onLogin({ userName: this.userName });
             }
         };
         return LoginWidgetController;

@@ -29,8 +29,8 @@ gulp.task('clean', 'Cleans the generated files from build folder', done => gulpS
 gulp.task('clean-server', false, (done) => del('./server/build', done));
 gulp.task('clean-client', false, (done) => del('./client/build', done));
 
-// copy client bower components to build folder
-gulp.task('copy-bower', false, () => gulp.src('./client/bower_components/**').pipe(gulp.dest('./client/build/bower_components')));
+// copy client 3rd party to build folder
+gulp.task('copy-client-3rd-party', false, () => gulp.src('./client/node_modules/**').pipe(gulp.dest('./client/build/node_modules')));
 
 // copy client index.html to build folder
 gulp.task('copy-index', false, () => gulp.src('./client/index.html').pipe(gulp.dest('./client/build')));
@@ -38,7 +38,7 @@ gulp.task('copy-index', false, () => gulp.src('./client/index.html').pipe(gulp.d
 // copy client views *.html to build folder
 gulp.task('copy-client-views', false, () => gulp.src('./client/src/**/view.html').pipe(gulp.dest('./client/build/src')));
 
-gulp.task('client-copy', false, done => gulpSequence(['copy-index', 'copy-bower', 'copy-client-views'])(done));
+gulp.task('client-copy', false, done => gulpSequence(['copy-index', 'copy-client-3rd-party', 'copy-client-views'])(done));
 
 // tslint
 gulp.task('tslint', 'Lint the TypeScript files', done => gulpSequence(['tslint-server', 'tslint-client'])(done));
@@ -86,7 +86,7 @@ gulp.task('watch', false, () => {
   watch('./client/src/**/view.html', {ignoreInitial: true}, 'copy-client-views');
   watch('./client/index.html', {ignoreInitial: true}, 'copy-index');
   watch('./client/src/**/*.ts', {ignoreInitial: true}, ['build-client', 'test-client']);
-  watch('./server/src/**/*.ts', {ignoreInitial: true}, ['build-server', 'node-server']);
+  watch('./server/src/**/*.ts', {ignoreInitial: true}, ['build-server', 'test-server', 'node-server']);
 });
 
 gulp.task('build', 'build the client and the server', done => gulpSequence(['build-client', 'build-server'])(done));
