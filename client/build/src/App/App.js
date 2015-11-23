@@ -1,1 +1,3 @@
-angular.module('OneNightApp', []);
+angular
+    .module('OneNightApp', [])
+    .service('ioService', function () { return io; });

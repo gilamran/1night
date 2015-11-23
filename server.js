@@ -24,6 +24,7 @@ app.use(express.static('client/build/'));
 // socket.io stuff
 io.on('connection', socket => {
   var addedPlayer = false;
+  console.log(`socket.io got new connection`);
 
   socket.on('player login', playerName => {
     console.log(`socket.io got "player login" message with "${playerName}"`);

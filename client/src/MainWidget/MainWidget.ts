@@ -1,10 +1,13 @@
 module components {
     export class MainWidgetController {
+        constructor(private ioService:SocketIOClientStatic) {
+            ioService.connect('http://localhost:9000');
+        }
+
         public onLogin(username:string) {
             console.log('onLogin', username);
         }
     }
-
     /* @ngInject */
     export function mainWidget() {
         return {

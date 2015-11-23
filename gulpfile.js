@@ -19,6 +19,39 @@ var tsClientFiles = require('./client/tsconfig.json').filesGlob;
 var tsServerProject = ts.createProject('./server/tsconfig.json');
 var tsClientProject = ts.createProject('./client/tsconfig.json');
 
+function spawnNode(port) {
+  var node = spawn('node', ['server.js', `--port=${port}`], {stdio: 'inherit'});
+
+  node.on('close', code => {
+    if (code === 8) {
+      gulp.log('Error detected, waiting for changes...');
+    }
+  });
+
+  return node;
+}
+
+function runNode(node, port) {
+  if (node)
+    node.kill();
+
+  node = spawnNode(port);
+  return node;
+}
+
+function runKarma(done, liveMode) {
+  var nodeTestsServer = spawnNode(9000);
+
+  new KarmaServer({
+    configFile: __dirname + '/client/karma.conf.js',
+    singleRun: !liveMode,
+    browsers: [liveMode ? 'Chrome' : 'PhantomJS']
+  }, () => {
+    nodeTestsServer.kill();
+    done();
+  }).start();
+}
+
 // tsconfig
 gulp.task('update-tsconfig', 'Updates the tsconfig files by filesGlob', done => gulpSequence(['update-tsconfig-server', 'update-tsconfig-client'])(done));
 gulp.task('update-tsconfig-server', false, () => gulp.src(tsServerFiles, {cwd: './server'}).pipe(tsConfigFiles({relative_dir:'./server', path:'./server/tsconfig.json'})));
@@ -48,17 +81,8 @@ gulp.task('tslint-client', false, () => gulp.src(tsClientFiles).pipe(tslint()));
 // Tests
 gulp.task('test', 'Runs the Server and Client Jasmine tests', done => gulpSequence('test-server', 'test-client')(done));
 gulp.task('test-server', false, () => gulp.src('./build/**/*.test.js', {cwd: './server'}).pipe(jasmine()));
-gulp.task('test-client', (done) => {
-  var nodeTestsServer = spawnNode(9000);
-
-  new KarmaServer({
-    configFile: __dirname + '/client/karma.conf.js',
-    singleRun: true
-  }, () => {
-    nodeTestsServer.kill();
-    done();
-  }).start();
-});
+gulp.task('test-client', done => runKarma(done, false));
+gulp.task('test-client-live', done => runKarma(done, true));
 
 // TypeScript compiler
 gulp.task('tsc', 'TypeScript the Server and the Client', done => gulpSequence(['tsc-server', 'tsc-client'])(done));
@@ -73,26 +97,6 @@ gulp.task('tsc-client', () => {
     .pipe(ts(tsClientProject))
     .js.pipe(gulp.dest('./client/build'));
 });
-
-function spawnNode(port) {
-  var node = spawn('node', ['server.js', `--port=${port}`], {stdio: 'inherit'});
-
-  node.on('close', code => {
-    if (code === 8) {
-      gulp.log('Error detected, waiting for changes...');
-    }
-  });
-
-  return node;
-}
-
-function runNode(node, port) {
-  if (node)
-    node.kill();
-
-  node = spawnNode(port);
-  return node;
-}
 
 gulp.task('node-dev-server', () => runNode(nodeDevServer, 8080));
 

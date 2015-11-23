@@ -13,6 +13,15 @@
     },
     "angularjs/angular-mocks.d.ts": {
       "commit": "16134c168d021351acb1673ee9659644fc58c424"
+    },
+    "socket.io/socket.io.d.ts": {
+      "commit": "ba424f7ee39717d51c17699a09ac8df312a7e9a1"
+    },
+    "node/node.d.ts": {
+      "commit": "ba424f7ee39717d51c17699a09ac8df312a7e9a1"
+    },
+    "socket.io-client/socket.io-client.d.ts": {
+      "commit": "ba424f7ee39717d51c17699a09ac8df312a7e9a1"
     }
   }
 }

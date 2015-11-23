@@ -6,7 +6,12 @@ var __extends = (this && this.__extends) || function (d, b) {
 var MainWidgetDriver = (function (_super) {
     __extends(MainWidgetDriver, _super);
     function MainWidgetDriver() {
+        var _this = this;
         _super.call(this, 'OneNightApp');
+        inject(function (_ioService_) {
+            _this.ioService = _ioService_;
+            spyOn(_this.ioService, 'connect').and.callThrough();
+        });
     }
     MainWidgetDriver.prototype.init = function () {
         this.element = testUtils.compileComponent('<main-widget></main-widget>');
@@ -25,5 +30,8 @@ describe('Component: mainWidget', function () {
     });
     it('Should start with a login widget visible', function () {
         expect(driver.getElement('login-widget')).toBePresent();
+    });
+    it('Should init a connection to the server', function () {
+        expect(driver.ioService.connect).toHaveBeenCalledWith('http://localhost:9000');
     });
 });

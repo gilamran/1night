@@ -1,6 +1,12 @@
 class MainWidgetDriver extends testUtils.BaseDriver {
+    public ioService : SocketIOClientStatic;
+
     constructor() {
         super('OneNightApp');
+        inject((_ioService_:SocketIOClientStatic) => {
+            this.ioService = _ioService_;
+            spyOn(this.ioService, 'connect').and.callThrough();
+        });
     }
 
     public init():void {
@@ -23,5 +29,9 @@ describe('Component: mainWidget', () => {
 
     it('Should start with a login widget visible', () => {
         expect(driver.getElement('login-widget')).toBePresent();
+    });
+
+    it('Should init a connection to the server', () => {
+        expect(driver.ioService.connect).toHaveBeenCalledWith('http://localhost:9000');
     });
 });
