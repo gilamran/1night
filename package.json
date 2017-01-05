@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "build": "tsc --project server/tsconfig.json",
-    "lint": "tslint --config tslint.json --project server/tsconfig.json"
+    "build": "tsc",
+    "lint": "tslint --config tslint.json --project tsconfig.json"
   },
   "author": "",
   "license": "ISC",
