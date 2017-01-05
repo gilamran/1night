@@ -1,1 +1,1 @@
-const ServerMain = require('./dist/ServerMain');
+const ServerMain = require('./dist/app/ServerMain');
