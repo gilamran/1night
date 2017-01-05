@@ -2,6 +2,8 @@ import { Roles } from './Game';
 import { OutMessages, InMessages } from './Game';
 import * as GameBuilder from './../test/drivers/GameDriver';
 import Game from './Game';
+import {expect} from 'chai';
+import * as sinon from 'sinon';
 
 describe('TroubleMaker', () => {
     let game: Game;
@@ -13,10 +15,10 @@ describe('TroubleMaker', () => {
     it('should ask the troublemaker which players he/she wants to switch', () => {
         game.dealer.dealCards(game.cards, game.players, game.table);
 
-        const spy = spyOn(game.troublemaker, 'sendMessage');
+        const spy = sinon.spy(game.troublemaker, 'sendMessage');
         game.playRole(Roles.Troublemaker);
 
-        expect(spy).toHaveBeenCalledWith({ message: OutMessages.AskTroublemakerToChoosePlayers });
+        expect(spy.calledWith({ message: OutMessages.AskTroublemakerToChoosePlayers })).to.be.ok;
     });
 
     it('after there is a response from the troublemaker, switch the cards, and let players know', () => {
@@ -27,13 +29,13 @@ describe('TroubleMaker', () => {
         const player2 = game.players[2];
         const player1OriginalRole = player1.role;
         const player2OriginalRole = player2.role;
-        const player1Spy = spyOn(player1, 'sendMessage');
-        const player2Spy = spyOn(player2, 'sendMessage');
+        const player1Spy = sinon.spy(player1, 'sendMessage');
+        const player2Spy = sinon.spy(player2, 'sendMessage');
 
         game.gotMessage(troublemaker, { message: InMessages.TroublemakerSwitchedPlayersCards, playersIds: [player1.id, player2.id] });
-        expect(player1Spy).toHaveBeenCalledWith({ message: OutMessages.TroublemakerSwitchedYourCard, newRole: player2OriginalRole });
-        expect(player2Spy).toHaveBeenCalledWith({ message: OutMessages.TroublemakerSwitchedYourCard, newRole: player1OriginalRole });
-        expect(player1.role).toBe(player2OriginalRole);
-        expect(player2.role).toBe(player1OriginalRole);
+        expect(player1Spy.calledWith({ message: OutMessages.TroublemakerSwitchedYourCard, newRole: player2OriginalRole })).to.be.ok;
+        expect(player2Spy.calledWith({ message: OutMessages.TroublemakerSwitchedYourCard, newRole: player1OriginalRole })).to.be.ok;
+        expect(player1.role).to.eq(player2OriginalRole);
+        expect(player2.role).to.eq(player1OriginalRole);
     });
 });

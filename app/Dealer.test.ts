@@ -3,6 +3,7 @@ import Dealer from './Dealer';
 import Player from './Player';
 import { Roles } from './Game';
 import * as GameBuilder from './../test/drivers/GameDriver';
+import {expect} from 'chai';
 
 describe('Dealer', () => {
     let game: Game;
@@ -14,7 +15,7 @@ describe('Dealer', () => {
     });
 
     it('should return a dealer after startGame', () => {
-        expect(dealer).not.toBeNull();
+        expect(dealer).not.to.be.null;
     });
 
     it('should be able to shuffle the cards', () => {
@@ -32,47 +33,47 @@ describe('Dealer', () => {
         const tmpDealer: Dealer = new Dealer();
         const cardsCopy = [...dummyGame.cards];
         tmpDealer.shuffleCards(dummyGame.cards);
-        expect(dummyGame.cards).not.toEqual(cardsCopy);
+        expect(dummyGame.cards).not.to.deep.eq(cardsCopy);
     });
 
     it('players should hold cards only after dealing', () => {
-        expect(game.players[0].role).toBeNull();
-        expect(game.players[1].role).toBeNull();
-        expect(game.players[2].role).toBeNull();
+        expect(game.players[0].role).to.be.null;
+        expect(game.players[1].role).to.be.null;
+        expect(game.players[2].role).to.be.null;
 
         dealer.shuffleCards(game.cards);
         dealer.dealCards(game.cards, game.players, game.table);
 
-        expect(game.players[0].role).toBe(game.cards[0]);
-        expect(game.players[1].role).toBe(game.cards[1]);
-        expect(game.players[2].role).toBe(game.cards[2]);
+        expect(game.players[0].role).to.eq(game.cards[0]);
+        expect(game.players[1].role).to.eq(game.cards[1]);
+        expect(game.players[2].role).to.eq(game.cards[2]);
     });
 
     it('table should have the remaining 3 cards after dealing', () => {
-        expect(game.table.cards.length).toBe(0);
+        expect(game.table.cards.length).to.eq(0);
 
         dealer.shuffleCards(game.cards);
         dealer.dealCards(game.cards, game.players, game.table);
 
-        expect(game.table.cards.length).toBe(3);
-        expect(game.table.cards[0]).toBe(game.cards[3]);
-        expect(game.table.cards[1]).toBe(game.cards[4]);
-        expect(game.table.cards[2]).toBe(game.cards[5]);
+        expect(game.table.cards.length).to.eq(3);
+        expect(game.table.cards[0]).to.eq(game.cards[3]);
+        expect(game.table.cards[1]).to.eq(game.cards[4]);
+        expect(game.table.cards[2]).to.eq(game.cards[5]);
     });
 
     it('should be able to deal as expected', () => {
-        expect(game.table.cards.length).toBe(0);
-        expect(game.players[0].role).toBeNull();
-        expect(game.players[1].role).toBeNull();
-        expect(game.players[2].role).toBeNull();
+        expect(game.table.cards.length).to.eq(0);
+        expect(game.players[0].role).to.be.null;
+        expect(game.players[1].role).to.be.null;
+        expect(game.players[2].role).to.be.null;
 
         dealer.dealCards(game.cards, game.players, game.table);
 
-        expect(game.players[0].role).toBe(game.cards[0]);
-        expect(game.players[1].role).toBe(game.cards[1]);
-        expect(game.players[2].role).toBe(game.cards[2]);
-        expect(game.table.cards[0]).toBe(game.cards[3]);
-        expect(game.table.cards[1]).toBe(game.cards[4]);
-        expect(game.table.cards[2]).toBe(game.cards[5]);
+        expect(game.players[0].role).to.eq(game.cards[0]);
+        expect(game.players[1].role).to.eq(game.cards[1]);
+        expect(game.players[2].role).to.eq(game.cards[2]);
+        expect(game.table.cards[0]).to.eq(game.cards[3]);
+        expect(game.table.cards[1]).to.eq(game.cards[4]);
+        expect(game.table.cards[2]).to.eq(game.cards[5]);
     });
 });

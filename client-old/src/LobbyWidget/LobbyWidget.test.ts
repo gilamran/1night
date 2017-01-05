@@ -19,6 +19,6 @@ describe('Component: lobbyWidget', () => {
     });
 
     it('Should have a title field', () => {
-        expect(driver.getElement('lobby-widget-title')).toBeDisplayed();
+        expect(driver.getElement('lobby-widget-title')).to.eqDisplayed();
     });
 });

@@ -4,18 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "echo \"Error: no clean specified\" && exit 1",
+    "test": "mocha dist/app/*.test.js",
     "start": "node index.js",
     "build": "tsc",
     "lint": "tslint --config tslint.json --project tsconfig.json"
   },
-  "author": "",
+  "author": "Gil Amran <gilamran@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "@types/chai": "^3.4.34",
     "@types/express": "^4.0.34",
     "@types/jasmine": "^2.5.40",
+    "@types/mocha": "^2.2.35",
     "@types/node": "^6.0.57",
+    "@types/sinon": "^1.16.34",
     "@types/socket.io": "^1.4.27",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.7",
     "tslint": "^4.2.0",
     "typescript": "^2.1.4"
   },
@@ -23,5 +30,6 @@
     "express": "^4.13.3",
     "node-options": "0.0.7",
     "socket.io": "^1.3.7"
-  }
+  },
+  "repository": "git@github.com:gilamran/1night.git"
 }

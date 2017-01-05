@@ -25,12 +25,12 @@ describe('Component: loginWidget', () => {
     });
 
     it('Should have a player name field', () => {
-        expect(driver.getElement('login-player-name-input')).toBeDisplayed();
+        expect(driver.getElement('login-player-name-input')).to.eqDisplayed();
     });
 
     it('Should have a login button', () => {
-        expect(driver.getElement('login-button')).toBeDisplayed();
-        expect(driver.getElement('login-button').text()).toBe('Login');
+        expect(driver.getElement('login-button')).to.eqDisplayed();
+        expect(driver.getElement('login-button').text()).to.eq('Login');
     });
 
     it('Should send a LOGIN message when login button was clicked', () => {
