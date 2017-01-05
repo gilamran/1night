@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "target": "ES6",
+    "types": ["node", "jasmine"],
+    "outDir": "dist"
+  },
+  "include": [
+    "app/ServerMain.ts",
+    "app/*.test.ts"
+  ]
+}
