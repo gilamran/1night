@@ -6,7 +6,8 @@
     "removeComments": false,
     "target": "ES6",
     "types": ["node", "mocha"],
-    "outDir": "dist"
+    "outDir": "dist",
+    "sourceMap": true
   },
   "include": [
     "app/ServerMain.ts",
